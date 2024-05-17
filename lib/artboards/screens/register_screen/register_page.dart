@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:may17/artboards/screens/home_screen/home_page.dart';
+import 'package:may17/artboards/screens/welcome_screen/welcome_page.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-List dataBase = [];
+List<Map<String, dynamic>> dataBase = [];
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -86,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     setState(() {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return const HomePageScreen();
+                          return const LoginScreen();
                         },
                       ));
                     });
@@ -283,8 +283,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       passwordController.text.length > 8) {
                     if (errorMessageEmail.isEmpty &&
                         errorMessagePassword.isEmpty) {
-                      dataBase.add(emailController);
-                      dataBase.add(passwordController);
+                      dataBase.add({"email": emailController.text, "password": passwordController.text});
                       setState(() {
                         showMessage();
                       });

@@ -133,21 +133,33 @@ class _LoginScreenState extends State<LoginScreen> {
               ZoomTapAnimation(
                 onTap: () {
                   if (emailController.text.isEmpty) {
-                    setState(() {
-                      errorMessageEmail = "Iltimos Emailni kiriting!";
-                    });
+                    errorMessageEmail = "Iltimos Emailni kiriting!";
                   }
                   if (passwordController.text.isEmpty) {
-                    setState(() {
-                      errorMessagePassword = "Iltimos Passwordni kiriting!";
-                    });
+                    errorMessagePassword = "Iltimos Passwordni kiriting!";
                   } else {
                     errorMessageEmail = "";
                     errorMessagePassword = "";
                   }
+                  bool isUserFound = false;
+                  bool isPasswordTrue = false;
+                  for (var i in dataBase) {
+                    if (i["email"] == emailController.text) {
+                      isUserFound = true;
+                      if (i["password"] == passwordController.text) {
+                        isPasswordTrue = true;
+                      }
+                    }
+                  }
 
-                  if (dataBase.contains(emailController) &&
-                      dataBase.contains(passwordController)) {
+                  if (!isUserFound) {
+                    errorMessageEmail = "Bunday foydalanuvchi topilmadi!";
+                    colorErrorPasword = Colors.red;
+                  } else if (!isPasswordTrue) {
+                    errorMessagePassword = "Parol noto'g'ri";
+                    colorErrorPasword = Colors.red;
+                  }
+                  if (isUserFound == true && isPasswordTrue == true) {
                     setState(() {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
@@ -155,12 +167,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ));
                     });
-                  } else {
-                    setState(() {
-                      errorPassword = "Bunday foydalanuvchi topilmadi!";
-                      colorErrorPasword = Colors.red;
-                    });
                   }
+                  setState(() {});
                 },
                 child: Container(
                   width: 1.sw,
